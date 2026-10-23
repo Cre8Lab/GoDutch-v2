@@ -1072,14 +1072,24 @@
         <span class="lobby-accordion-arrow">▾</span>
       </button>
       <div id="drawer-create" class="lobby-accordion-drawer">
-        <span class="lobby-box-title">初次發起旅程請設定一組代號+4碼數字密碼。</span>
+        <span class="lobby-box-title">初次發起旅程請設定代號與密碼；輸入通行碼可解鎖完整功能。</span>
         <div class="lobby-form-row">
           <input type="text" id="customRoomCodeInput" class="input-text" placeholder="旅程代碼 (例如 tokyo2026)" style="font-family:monospace; text-transform:lowercase;">
           <button type="button" class="btn-clear-form" style="padding:0 12px; font-size:11px; flex-shrink:0;" onclick="generateRandomRoomCode()">隨機</button>
         </div>
-        <div style="margin-bottom:10px;">
+        <div style="margin-bottom:8px;">
           <input type="password" maxlength="4" pattern="\d{4}" inputmode="numeric" id="customRoomPinInput" class="input-text" style="width:100%; font-family:monospace;" placeholder="總務密碼 (4碼數字)">
         </div>
+        
+        <!-- 總務通行序號欄位與購買連結 -->
+        <div style="margin-bottom:12px;">
+          <div class="lobby-form-row" style="margin-bottom:4px;">
+            <input type="text" id="customRoomLicenseInput" class="input-text" placeholder="總務通行碼 (選填，解鎖完整版)" style="font-family:monospace; text-transform:uppercase;">
+            <button type="button" class="btn-header-sub" style="padding:0 10px; font-size:11px; flex-shrink:0;" onclick="openStripeCheckout()">購買 ($100/年)</button>
+          </div>
+          <span style="font-size:10.5px; color:var(--text-light); display:block; line-height:1.4;">未填寫將以「體驗版」開啟（上限 5 位旅伴與 3 筆花費）。</span>
+        </div>
+
         <button type="button" class="btn-save-expense" style="width:100%; font-size:12px;" onclick="createNewTripRoom()">建立並以總務身分進入</button>
       </div>
 
@@ -1226,7 +1236,7 @@
         <div id="expenseList"></div>
       </div>
 
-      <!-- (6) 結算明細 -->
+      <!-- (6) 結算明細 (完全開放正常顯示，不設遮罩) -->
       <div class="card">
         <div class="card-header">
           <span class="card-title">結算明細</span>
@@ -1349,6 +1359,8 @@
       createdAt: null,
       adminPin: "",
       password: "",
+      licenseKey: "",
+      isProVersion: false,
       kittyEnabled: false,
       members: [],          
       custodian: "",        
@@ -1380,7 +1392,7 @@
       if (toastTimer) clearTimeout(toastTimer);
       toastTimer = setTimeout(() => {
         toast.classList.remove('show');
-      }, 2500);
+      }, 3000);
     }
 
     function showConfirm(msg, onOk, onCancel) {
@@ -1400,6 +1412,14 @@
         modal.style.display = 'none';
         if (onCancel) onCancel();
       };
+    }
+
+    // 前往 Stripe 付款頁面
+    function openStripeCheckout() {
+      showConfirm('前往 Stripe 付款頁面取得 1 年總務通行權（NT$ 100）？', () => {
+        // 後續請替換為你的 Stripe Payment Link
+        showToast('即將跳轉至付款頁面');
+      });
     }
 
     // ==========================================
@@ -1440,6 +1460,7 @@
     async function createNewTripRoom() {
       const code = document.getElementById('customRoomCodeInput').value.trim().toLowerCase();
       const pin = document.getElementById('customRoomPinInput').value.trim();
+      const license = document.getElementById('customRoomLicenseInput').value.trim().toUpperCase();
 
       if (!code) return showToast('請填寫旅程代碼');
       if (!/^[a-z0-9_-]+$/.test(code)) return showToast('代碼限英數字或連字號');
@@ -1459,10 +1480,15 @@
           document.getElementById('joinRoomCodeInput').value = code;
           toggleLobbyAccordion('join');
         } else {
+          // 判斷是否填入通行碼啟用 VIP
+          const isPro = Boolean(license);
+
           db.ref('trips/' + code).set({
             createdAt: Date.now(),
             adminPin: hashedPin,
             password: hashedPin,
+            licenseKey: license || "",
+            isProVersion: isPro,
             kittyEnabled: false,
             members: [],
             custodian: "",
@@ -1472,6 +1498,7 @@
           }, () => {
             sessionStorage.setItem('godutch_auth_' + code, hashedPin);
             sessionStorage.setItem('godutch_raw_pin_' + code, pin);
+            sessionStorage.setItem('godutch_just_created_' + code, isPro ? 'pro' : 'trial');
             window.location.href = `${window.location.pathname}?trip=${code}&admin=1`;
           });
         }
@@ -1654,6 +1681,15 @@
 
       updateRoleUI();
 
+      // 初次建立體驗版時跳出提醒泡泡說明
+      const justCreatedType = sessionStorage.getItem('godutch_just_created_' + currentTripId);
+      if (justCreatedType === 'trial') {
+        sessionStorage.removeItem('godutch_just_created_' + currentTripId);
+        setTimeout(() => {
+          showToast('🌱 目前為體驗版（上限 5 位旅伴、3 筆花費），輸入通行碼可解鎖完整功能。');
+        }, 800);
+      }
+
       if (db) {
         tripRef = db.ref('trips/' + currentTripId);
         tripRef.on('value', (snapshot) => {
@@ -1662,6 +1698,8 @@
             state.createdAt = val.createdAt || Date.now();
             state.adminPin = val.adminPin || val.password || "";
             state.password = val.password || val.adminPin || "";
+            state.licenseKey = val.licenseKey || "";
+            state.isProVersion = (val.isProVersion === true);
             state.kittyEnabled = (val.kittyEnabled === true);
             state.members = Array.isArray(val.members) ? val.members : [];
             state.custodian = val.custodian || "";
@@ -1669,7 +1707,7 @@
             state.kittyDeposits = Array.isArray(val.kittyDeposits) ? val.kittyDeposits : [];
             state.expenses = Array.isArray(val.expenses) ? val.expenses : [];
           } else {
-            state = { createdAt: Date.now(), adminPin: "", password: "", kittyEnabled: false, members: [], custodian: "", memberBanks: {}, kittyDeposits: [], expenses: [] };
+            state = { createdAt: Date.now(), adminPin: "", password: "", licenseKey: "", isProVersion: false, kittyEnabled: false, members: [], custodian: "", memberBanks: {}, kittyDeposits: [], expenses: [] };
           }
           selectedSplitters = state.members.slice();
           renderAll();
@@ -1833,7 +1871,15 @@
 
     function addMember() {
       if (!isAdmin) return;
-      if (state.members.length >= 30) return showToast('旅伴人數已達上限 (30人)');
+
+      // 體驗版名冊上限 5 位（含總務本人）限制
+      if (!state.isProVersion && state.members.length >= 5) {
+        return showConfirm('體驗版最多支援加入 5 位旅伴（含總務本人）。是否升級 VIP 通行碼解鎖人數限制？', () => {
+          openStripeCheckout();
+        });
+      }
+
+      if (state.members.length >= 30) return showToast('旅伴人數已達系統上限 (30人)');
       const input = document.getElementById('memberNameInput');
       const name = input.value ? input.value.trim() : '';
       if (!name) return showToast('請輸入旅伴姓名');
@@ -1959,7 +2005,15 @@
     function addExpense() {
       if (!isAdmin) return;
       if (state.members.length === 0) return showToast('請先加入全員名冊');
-      if (state.expenses.length >= 300) return showToast('消費筆數已達上限 (300筆)');
+
+      // 體驗版花費上限 3 筆限制（記錄第 4 筆時阻擋）
+      if (!state.isProVersion && state.expenses.length >= 3) {
+        return showConfirm('體驗版最多支援記錄 3 筆支出。是否升級 VIP 通行碼解鎖完整功能？', () => {
+          openStripeCheckout();
+        });
+      }
+
+      if (state.expenses.length >= 300) return showToast('消費筆數已達系統上限 (300筆)');
 
       const titleInput = document.getElementById('itemTitle');
       const amountInput = document.getElementById('itemAmount');
@@ -2274,7 +2328,7 @@
       }
       document.getElementById('totalCostDisplay').innerText = `累計：$${Math.round(total).toLocaleString()}`;
 
-      // 結算列表
+      // 結算列表 (完全開放正常顯示)
       const setList = document.getElementById('settlementList');
       const { transactions, creditors } = computeSettlement();
       if (transactions.length === 0) {
@@ -2376,7 +2430,7 @@
     function resetEntireTrip() {
       if (!isAdmin) return;
       showConfirm('確定清空這趟旅程的所有紀錄嗎？', () => {
-        state = { createdAt: Date.now(), adminPin: "", password: "", kittyEnabled: false, members: [], custodian: "", memberBanks: {}, kittyDeposits: [], expenses: [] };
+        state = { createdAt: Date.now(), adminPin: "", password: "", licenseKey: "", isProVersion: false, kittyEnabled: false, members: [], custodian: "", memberBanks: {}, kittyDeposits: [], expenses: [] };
         selectedSplitters = [];
         customSplits = [];
         syncState();
