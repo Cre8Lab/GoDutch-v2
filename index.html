@@ -1414,11 +1414,11 @@
       };
     }
 
-    // 前往 Stripe 付款頁面
+    // 前往 Portaly 付款頁面
     function openStripeCheckout() {
-      showConfirm('前往 Stripe 付款頁面取得 1 年總務通行權（NT$ 100）？', () => {
-        // 後續請替換為你的 Stripe Payment Link
-        showToast('即將跳轉至付款頁面');
+      showConfirm('前往付款頁面取得 1 年總務通行權（NT$ 100）？', () => {
+        // 貼上你在 Portaly 複製的單一商品連結
+        window.open('https://portaly.cc/admin/product/projects', '_blank');
       });
     }
 
