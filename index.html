@@ -147,7 +147,7 @@
       text-overflow: ellipsis;
     }
     
-    /* 純文字身分標示（無外框，隨四季主題色連動） */
+    /* 純文字身分標示 (無橢圓外框，顏色隨四季聯動) */
     .role-badge {
       font-size: 11px;
       letter-spacing: 0.5px;
@@ -1316,7 +1316,7 @@
     setAppTheme(savedTheme);
 
     // ==========================================
-    // 1. Firebase 連線設定
+    // 1. Firebase 連線設定 (v2 獨立專案)
     // ==========================================
     const firebaseConfig = {
       apiKey: "AIzaSyACdg1tjVIVbf631KSBCkmxMynjcCaONb0",
@@ -1361,6 +1361,16 @@
     let customSplits = [];
     let expandedExpenseId = null;
     let isStatsExpanded = false;
+
+    // 原生 SHA-256 單向密碼雜湊
+    async function hashPin(pin) {
+      if (!pin) return "";
+      const encoder = new TextEncoder();
+      const data = encoder.encode(String(pin).trim());
+      const hashBuffer = await crypto.subtle.digest('SHA-256', data);
+      const hashArray = Array.from(new Uint8Array(hashBuffer));
+      return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+    }
 
     let toastTimer = null;
     function showToast(msg) {
@@ -1427,13 +1437,15 @@
       document.getElementById('customRoomCodeInput').value = code;
     }
 
-    function createNewTripRoom() {
+    async function createNewTripRoom() {
       const code = document.getElementById('customRoomCodeInput').value.trim().toLowerCase();
       const pin = document.getElementById('customRoomPinInput').value.trim();
 
       if (!code) return showToast('請填寫旅程代碼');
       if (!/^[a-z0-9_-]+$/.test(code)) return showToast('代碼限英數字或連字號');
       if (!/^\d{4}$/.test(pin)) return showToast('密碼請填 4 碼純數字');
+
+      const hashedPin = await hashPin(pin);
 
       if (!db) {
         window.location.href = `${window.location.pathname}?trip=${code}&admin=1`;
@@ -1449,8 +1461,8 @@
         } else {
           db.ref('trips/' + code).set({
             createdAt: Date.now(),
-            adminPin: pin,
-            password: pin,
+            adminPin: hashedPin,
+            password: hashedPin,
             kittyEnabled: false,
             members: [],
             custodian: "",
@@ -1458,21 +1470,22 @@
             expenses: [],
             memberBanks: {}
           }, () => {
-            sessionStorage.setItem('godutch_auth_' + code, pin);
+            sessionStorage.setItem('godutch_auth_' + code, hashedPin);
+            sessionStorage.setItem('godutch_raw_pin_' + code, pin);
             window.location.href = `${window.location.pathname}?trip=${code}&admin=1`;
           });
         }
       });
     }
 
-    function joinExistingRoom() {
+    async function joinExistingRoom() {
       const code = document.getElementById('joinRoomCodeInput').value.trim().toLowerCase();
       const inputPass = document.getElementById('joinRoomPinInput').value.trim();
 
       if (!code) return showToast('請輸入旅程代碼');
 
       if (db) {
-        db.ref('trips/' + code).once('value', (snap) => {
+        db.ref('trips/' + code).once('value', async (snap) => {
           if (!snap.exists() || !snap.val()) {
             return showToast('查無此旅程，請確認代碼');
           }
@@ -1492,10 +1505,11 @@
             }
 
             const dbPass = String(rawDbPass).trim();
-            const userPass = String(inputPass).trim();
+            const userHashedPass = await hashPin(inputPass);
 
-            if (dbPass === userPass) {
-              sessionStorage.setItem('godutch_auth_' + code, userPass);
+            if (dbPass === userHashedPass || dbPass === String(inputPass).trim()) {
+              sessionStorage.setItem('godutch_auth_' + code, dbPass);
+              sessionStorage.setItem('godutch_raw_pin_' + code, inputPass);
               window.location.href = `${window.location.pathname}?trip=${code}&admin=1`;
             } else {
               showToast('管理密碼錯誤，請重新確認');
@@ -1519,8 +1533,8 @@
     function shareAdminAccess() {
       const baseUrl = window.location.origin + window.location.pathname;
       const adminUrl = `${baseUrl}?trip=${currentTripId}&admin=1`;
-      const pin = state.adminPin || state.password || '未設定';
-      const msg = `【遠行時光・旅程分帳】\n旅程代碼：${currentTripId}\n總務密碼：${pin}\n\n👉 總務管理連結：\n${adminUrl}`;
+      const rawPin = sessionStorage.getItem('godutch_raw_pin_' + currentTripId) || '已加密保護 (請輸入原設定的4碼數字)';
+      const msg = `【遠行時光・旅程分帳】\n旅程代碼：${currentTripId}\n總務密碼：${rawPin}\n\n👉 總務管理連結：\n${adminUrl}`;
       copyToClipboard(msg, '已複製總務管理連結與密碼');
     }
 
@@ -1551,11 +1565,15 @@
       }
 
       const entered = await requestPinFromModal();
-      if (entered && String(entered).trim() === activePin) {
-        sessionStorage.setItem('godutch_auth_' + currentTripId, entered);
-        window.location.href = `${window.location.pathname}?trip=${currentTripId}&admin=1`;
-      } else if (entered) {
-        showToast('管理密碼錯誤');
+      if (entered) {
+        const enteredHashed = await hashPin(entered);
+        if (enteredHashed === activePin || entered.trim() === activePin) {
+          sessionStorage.setItem('godutch_auth_' + currentTripId, activePin);
+          sessionStorage.setItem('godutch_raw_pin_' + currentTripId, entered.trim());
+          window.location.href = `${window.location.pathname}?trip=${currentTripId}&admin=1`;
+        } else {
+          showToast('管理密碼錯誤');
+        }
       }
     }
 
@@ -1608,13 +1626,21 @@
           const cachedPin = sessionStorage.getItem('godutch_auth_' + currentTripId);
           if (cachedPin !== activePin) {
             const entered = await requestPinFromModal();
-            if (entered && String(entered).trim() === activePin) {
-              sessionStorage.setItem('godutch_auth_' + currentTripId, entered);
-              isAdmin = true;
+            if (entered) {
+              const enteredHashed = await hashPin(entered);
+              if (enteredHashed === activePin || entered.trim() === activePin) {
+                sessionStorage.setItem('godutch_auth_' + currentTripId, activePin);
+                sessionStorage.setItem('godutch_raw_pin_' + currentTripId, entered.trim());
+                isAdmin = true;
+              } else {
+                isAdmin = false;
+                window.history.replaceState({}, '', `${window.location.pathname}?trip=${currentTripId}`);
+                showToast('密碼錯誤，切換為檢視模式');
+              }
             } else {
               isAdmin = false;
               window.history.replaceState({}, '', `${window.location.pathname}?trip=${currentTripId}`);
-              showToast(entered ? '密碼錯誤，切換為檢視模式' : '已進入旅伴檢視模式');
+              showToast('已進入旅伴檢視模式');
             }
           }
         }
@@ -1807,6 +1833,7 @@
 
     function addMember() {
       if (!isAdmin) return;
+      if (state.members.length >= 30) return showToast('旅伴人數已達上限 (30人)');
       const input = document.getElementById('memberNameInput');
       const name = input.value ? input.value.trim() : '';
       if (!name) return showToast('請輸入旅伴姓名');
@@ -1932,6 +1959,7 @@
     function addExpense() {
       if (!isAdmin) return;
       if (state.members.length === 0) return showToast('請先加入全員名冊');
+      if (state.expenses.length >= 300) return showToast('消費筆數已達上限 (300筆)');
 
       const titleInput = document.getElementById('itemTitle');
       const amountInput = document.getElementById('itemAmount');
