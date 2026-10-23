@@ -1137,7 +1137,7 @@
           <button type="button" class="card-action-btn" onclick="clearAllMembers()">清空名冊</button>
         </div>
         <div class="input-row">
-          <input id="memberNameInput" type="text" class="input-text" placeholder="旅伴姓名 (例如：阿信)">
+          <input id="memberNameInput" type="text" class="input-text" placeholder="旅伴姓名 (例如：阿信)" onkeydown="if(event.key==='Enter') addMember()">
           <button type="button" class="btn-add" onclick="addMember()">加入</button>
         </div>
         <div id="membersContainer" class="chips-grid"></div>
@@ -1188,7 +1188,7 @@
         <div class="form-grid-2 form-group">
           <div>
             <label class="form-label">金額</label>
-            <input id="itemAmount" type="number" class="input-text" style="width:100%;" placeholder="0">
+            <input id="itemAmount" type="number" class="input-text" style="width:100%;" placeholder="0" onkeydown="if(event.key==='Enter') addExpense()">
           </div>
           <div>
             <label class="form-label">付款人</label>
@@ -1495,7 +1495,11 @@
             kittyDeposits: [],
             expenses: [],
             memberBanks: {}
-          }, () => {
+          }, (err) => {
+            if (err) {
+              console.error("建立旅程失敗：", err);
+              return showToast("建立失敗：" + err.message);
+            }
             sessionStorage.setItem('godutch_auth_' + code, hashedPin);
             sessionStorage.setItem('godutch_raw_pin_' + code, pin);
             sessionStorage.setItem('godutch_just_created_' + code, isPro ? 'pro' : 'trial');
@@ -1701,11 +1705,13 @@
             state.licenseKey = val.licenseKey || "";
             state.isProVersion = (val.isProVersion === true);
             state.kittyEnabled = (val.kittyEnabled === true);
-            state.members = Array.isArray(val.members) ? val.members : [];
+            
+            // 雙重相容：支援陣列與物件格式解析
+            state.members = Array.isArray(val.members) ? val.members : (val.members ? Object.values(val.members) : []);
             state.custodian = val.custodian || "";
             state.memberBanks = val.memberBanks || {};
-            state.kittyDeposits = Array.isArray(val.kittyDeposits) ? val.kittyDeposits : [];
-            state.expenses = Array.isArray(val.expenses) ? val.expenses : [];
+            state.kittyDeposits = Array.isArray(val.kittyDeposits) ? val.kittyDeposits : (val.kittyDeposits ? Object.values(val.kittyDeposits) : []);
+            state.expenses = Array.isArray(val.expenses) ? val.expenses : (val.expenses ? Object.values(val.expenses) : []);
           } else {
             state = { createdAt: Date.now(), adminPin: "", password: "", licenseKey: "", isProVersion: false, kittyEnabled: false, members: [], custodian: "", memberBanks: {}, kittyDeposits: [], expenses: [] };
           }
@@ -1745,7 +1751,12 @@
     function syncState() {
       if (tripRef && isAdmin) {
         if (!state.createdAt) state.createdAt = Date.now();
-        tripRef.set(state);
+        tripRef.set(state, (err) => {
+          if (err) {
+            console.error("Firebase 同步失敗：", err);
+            showToast("同步失敗：" + err.message);
+          }
+        });
       } else if (!db) {
         localStorage.setItem('godutch_trip_' + currentTripId, JSON.stringify(state));
       }
