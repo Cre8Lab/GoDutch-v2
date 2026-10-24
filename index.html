@@ -164,6 +164,7 @@
       display: inline-flex;
       align-items: center;
       cursor: pointer;
+      user-select: none;
     }
     .vip-status-tag.pro {
       background: var(--theme-light);
@@ -342,11 +343,6 @@
       display: block;
       margin-bottom: 10px;
       letter-spacing: 0.3px;
-    }
-    .lobby-form-row {
-      display: flex;
-      gap: 6px;
-      margin-bottom: 8px;
     }
 
     .card {
@@ -547,7 +543,7 @@
       border: none;
       color: var(--text-light);
       font-size: 13px;
-      cursor: line-through;
+      cursor: pointer;
       line-height: 1;
     }
     .chip-del:hover { color: #BA7C7C; }
@@ -820,11 +816,11 @@
       border-radius: var(--radius-lg);
       padding: 22px 20px;
       width: 100%;
-      max-width: 320px;
+      max-width: 330px;
       box-shadow: 0 16px 36px rgba(0, 0, 0, 0.1);
     }
     .modal-title {
-      font-size: 14px;
+      font-size: 14.5px;
       font-weight: 600;
       letter-spacing: 0.5px;
       color: var(--text-main);
@@ -836,7 +832,7 @@
       border: 1px solid var(--border-soft);
       border-radius: var(--radius-sm);
       padding: 12px 14px;
-      margin-bottom: 14px;
+      margin-bottom: 12px;
     }
     .pay-info-row {
       display: flex;
@@ -856,6 +852,14 @@
       border-radius: 6px;
       font-size: 12px;
     }
+
+    .pay-note-paragraph {
+      font-size: 11.5px;
+      color: var(--text-muted);
+      line-height: 1.5;
+      margin-bottom: 6px;
+    }
+    .pay-note-paragraph:last-child { margin-bottom: 0; }
 
     .toast-container {
       position: fixed;
@@ -973,7 +977,6 @@
           <input type="password" maxlength="4" pattern="\d{4}" inputmode="numeric" id="customRoomPinInput" class="input-text" style="width:100%; font-family:monospace;" placeholder="總務密碼 (4碼數字)">
         </div>
         
-        <!-- 體驗版說明與每季 60 元解鎖按鈕 -->
         <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:14px; padding:0 2px;">
           <span style="font-size:11px; color:var(--text-muted); letter-spacing:0.3px;">體驗版僅能輸入5位旅伴、3筆紀錄</span>
           <button type="button" class="btn-header-sub" style="padding:4px 10px; font-size:11px; flex-shrink:0;" onclick="openStripeCheckout()">購買 ($60/季)</button>
@@ -990,7 +993,7 @@
       <div id="drawer-join" class="lobby-accordion-drawer">
         <span class="lobby-box-title">輸入代碼可直接檢視；填寫密碼則以總務身分登入。</span>
         <div class="lobby-form-row" style="margin-bottom:8px;">
-          <input type="text" id="joinRoomCodeInput" class="input-text" placeholder="旅程代碼 (例如 tokyo2026)" style="font-family:monospace; text-transform:lowercase;">
+          <input type="text" id="joinRoomCodeInput" class="input-text" placeholder="旅程代碼 (例如 tokyo2026)" style="width:100%; font-family:monospace; text-transform:lowercase;">
         </div>
         <div style="margin-bottom:10px;">
           <input type="password" maxlength="4" pattern="\d{4}" inputmode="numeric" id="joinRoomPinInput" class="input-text" style="width:100%; font-family:monospace;" placeholder="總務密碼 (一般旅伴免填，總務請填4碼)">
@@ -1083,7 +1086,6 @@
           </div>
         </div>
 
-        <!-- 特殊自費 -->
         <div class="custom-box">
           <div class="custom-header">
             <span class="form-label" style="margin-bottom:0;">包含個人自費？</span>
@@ -1095,7 +1097,6 @@
           </div>
         </div>
 
-        <!-- 分攤旅伴 -->
         <div class="form-group">
           <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
             <label class="form-label" style="margin-bottom:0;">分攤旅伴 (可點選)</label>
@@ -1260,7 +1261,6 @@
     let expandedExpenseId = null;
     let isStatsExpanded = false;
 
-    // 原生 SHA-256 單向密碼雜湊
     async function hashPin(pin) {
       if (!pin) return "";
       const encoder = new TextEncoder();
@@ -1303,21 +1303,19 @@
       };
     }
 
-    // 檢查目前旅程是否處於有效 VIP 狀態
     function isTripVipValid() {
       if (state.proUntil && Number(state.proUntil) > Date.now()) return true;
       if (state.isProVersion === true) return true;
       return false;
     }
 
-    // 計算 VIP 剩餘天數
     function getRemainingDays() {
       if (!state.proUntil) return state.isProVersion ? 999 : 0;
       const diff = Number(state.proUntil) - Date.now();
       return Math.max(0, Math.ceil(diff / (1000 * 60 * 60 * 24)));
     }
 
-    // 前往 Gumroad 付款頁面升級旅程（支援首頁大廳與旅程內部）
+    // 前往 Gumroad 付款頁面升級 / 延長旅程
     function openStripeCheckout() {
       let targetCode = currentTripId;
 
@@ -1344,7 +1342,10 @@
       const okBtn = document.getElementById('btnConfirmOk');
       const cancelBtn = document.getElementById('btnConfirmCancel');
 
-      titleEl.innerText = "解鎖完整功能";
+      const isCurrentVip = isTripVipValid();
+      const remainDays = getRemainingDays();
+
+      titleEl.innerText = isCurrentVip ? "延長 VIP 通行權" : "解鎖完整功能";
       text.innerHTML = `
         <div class="pay-info-box">
           <div class="pay-info-row">
@@ -1352,20 +1353,23 @@
             <span class="pay-badge-code">${targetCode}</span>
           </div>
           <div class="pay-info-row">
-            <span style="color:var(--text-muted);">通行方案</span>
-            <span style="color:var(--theme-dark); font-weight:600;">NT$ 60 / 季 (90天)</span>
+            <span style="color:var(--text-muted);">${isCurrentVip ? '目前剩餘' : '通行方案'}</span>
+            <span style="color:var(--theme-dark); font-weight:600;">${isCurrentVip ? (remainDays + ' 天') : 'NT$ 60 / 季 (90天)'}</span>
           </div>
           <div class="pay-info-row">
-            <span style="color:var(--text-muted);">權限升級</span>
-            <span style="color:var(--text-main);">無人數與記帳上限</span>
+            <span style="color:var(--text-muted);">${isCurrentVip ? '續訂方案' : '權限升級'}</span>
+            <span style="color:var(--text-main);">${isCurrentVip ? '+ 90 天 (自動疊加)' : '無人數與記帳上限'}</span>
           </div>
         </div>
-        <p style="font-size:11.5px; color:var(--text-muted); line-height:1.5;">
-          已自動為您複製旅程代碼。前往付款頁面貼上即可於 1 秒內自動完成解鎖。
+        <p class="pay-note-paragraph">
+          📌 已為您自動複製旅程代碼【${targetCode}】至剪貼簿。
+        </p>
+        <p class="pay-note-paragraph">
+          💳 請前往結帳頁面貼上，付款成功後系統將於 1 秒內自動完成解鎖。
         </p>
       `;
 
-      okBtn.innerText = "前往付款";
+      okBtn.innerText = isCurrentVip ? "延長通行權" : "前往付款";
       modal.style.display = 'flex';
 
       okBtn.onclick = () => {
@@ -1427,7 +1431,6 @@
           document.getElementById('joinRoomCodeInput').value = code;
           toggleLobbyAccordion('join');
         } else {
-          // 預設建立體驗版房間，付費後由 Webhook 自動賦予 proUntil
           db.ref('trips/' + code).set({
             createdAt: Date.now(),
             adminPin: hashedPin,
