@@ -1414,12 +1414,23 @@
       };
     }
 
-    // 前往 Portaly 付款頁面
+    // 前往 Gumroad 付款頁面升級當前旅程
     function openStripeCheckout() {
-      showConfirm('前往付款頁面取得 1 年總務通行權（NT$ 100）？', () => {
-        // 貼上你在 Portaly 複製的單一商品連結
-        window.open('https://portaly.cc/cre8lab/product/8UK8d3N6lscOZWhTEu17', '_blank');
-      });
+      if (!currentTripId) return;
+    
+      // 嘗試自動複製旅程代碼至剪貼簿，方便買家直接貼上
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(currentTripId).catch(() => {});
+      }
+    
+      showConfirm(
+        `確定要永久解鎖旅程【${currentTripId}】為 VIP 完整版嗎？\n\n📌 結帳時請在「請填寫旅程代碼」欄位填入：${currentTripId}（已自動為您複製）`,
+        () => {
+          // 你的 Gumroad 正式商品購買連結
+          const gumroadUrl = 'https://orice2.gumroad.com/l/jaephu';
+          window.open(gumroadUrl, '_blank');
+        }
+      );
     }
 
     // ==========================================
