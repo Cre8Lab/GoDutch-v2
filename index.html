@@ -365,18 +365,25 @@
       letter-spacing: 0.8px;
       white-space: nowrap;
     }
-    .card-action-btn {
-      font-size: 11px;
-      color: var(--text-light);
-      background: none;
-      border: none;
+
+    /* 統一規格方塊按鈕樣式 (依結算明細複製清單為準) */
+    .btn-action-bordered {
+      background: var(--bg-warm);
+      border: 1px solid var(--border-soft);
+      padding: 3px 9px;
+      border-radius: 4px;
+      font-size: 10px;
       cursor: pointer;
-      padding: 2px 4px;
+      color: var(--text-muted);
       white-space: nowrap;
-      flex-shrink: 0;
-      transition: color 0.2s;
+      line-height: 1.4;
+      transition: all 0.2s;
     }
-    .card-action-btn:hover { color: #BA7C7C; }
+    .btn-action-bordered:hover {
+      background: #FFFFFF;
+      color: var(--theme-dark);
+      border-color: var(--theme-border);
+    }
 
     .kitty-toggle-banner {
       background: var(--bg-warm);
@@ -853,13 +860,25 @@
       font-size: 12px;
     }
 
-    .pay-note-paragraph {
+    /* 彈窗說明列：圖示固定寬度，第二行文字嚴格對齊上方文字起始處 */
+    .pay-note-item {
+      display: flex;
+      align-items: flex-start;
+      margin-bottom: 8px;
       font-size: 11.5px;
       color: var(--text-muted);
       line-height: 1.5;
-      margin-bottom: 6px;
     }
-    .pay-note-paragraph:last-child { margin-bottom: 0; }
+    .pay-note-item:last-child { margin-bottom: 0; }
+    .pay-note-icon {
+      flex-shrink: 0;
+      width: 20px;
+      text-align: left;
+    }
+    .pay-note-content {
+      flex: 1 1 auto;
+      min-width: 0;
+    }
 
     .toast-container {
       position: fixed;
@@ -993,7 +1012,7 @@
       <div id="drawer-join" class="lobby-accordion-drawer">
         <span class="lobby-box-title">輸入代碼可直接檢視；填寫密碼則以總務身分登入。</span>
         <div class="lobby-form-row" style="margin-bottom:8px;">
-          <input type="text" id="joinRoomCodeInput" class="input-text" placeholder="旅程代碼 (例如 tokyo2026)" style="width:100%; font-family:monospace; text-transform:lowercase;">
+          <input type="text" id="joinRoomCodeInput" class="input-text" placeholder="旅程代碼 (例如 tokyo2026)" style="font-family:monospace; text-transform:lowercase;">
         </div>
         <div style="margin-bottom:10px;">
           <input type="password" maxlength="4" pattern="\d{4}" inputmode="numeric" id="joinRoomPinInput" class="input-text" style="width:100%; font-family:monospace;" placeholder="總務密碼 (一般旅伴免填，總務請填4碼)">
@@ -1012,7 +1031,7 @@
           <span class="card-title">旅伴收支小記</span>
           <div style="display:flex; align-items:center; gap:8px;">
             <span style="font-size:10px; color:var(--text-light);">即時統計</span>
-            <button type="button" id="btnToggleStats" class="card-action-btn" style="color:var(--theme-dark);">展開 ▾</button>
+            <button type="button" id="btnToggleStats" class="btn-action-bordered">展開 ▾</button>
           </div>
         </div>
         <div id="statsDrawer" style="display:none; margin-top:10px;">
@@ -1026,7 +1045,8 @@
       <div class="card admin-only" id="memberManageCard">
         <div class="card-header">
           <span class="card-title">全員名冊-含總務 (<span id="memberCountBadge">0</span>)</span>
-          <button type="button" class="card-action-btn" onclick="clearAllMembers()">清空名冊</button>
+          <!-- 參考複製清單樣式 -->
+          <button type="button" class="btn-action-bordered" onclick="clearAllMembers()">清空名冊</button>
         </div>
         <div class="input-row">
           <input id="memberNameInput" type="text" class="input-text" placeholder="旅伴姓名 (例如：阿信)" onkeydown="if(event.key==='Enter') addMember()">
@@ -1100,7 +1120,8 @@
         <div class="form-group">
           <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
             <label class="form-label" style="margin-bottom:0;">分攤旅伴 (可點選)</label>
-            <button type="button" onclick="toggleAllSplitters()" style="background:none; border:none; color:var(--theme-dark); font-size:11px; font-weight:500; cursor:pointer;">全選 / 反選</button>
+            <!-- 參考複製清單樣式 -->
+            <button type="button" class="btn-action-bordered" onclick="toggleAllSplitters()">全選 / 反選</button>
           </div>
           <div id="splitButtonsContainer" class="chips-grid" style="margin-top:0;"></div>
         </div>
@@ -1117,7 +1138,8 @@
           <span class="card-title">花費動態</span>
           <div style="display:flex; gap:8px; align-items:center;">
             <span id="totalCostDisplay" style="color:var(--theme-dark); font-family:monospace; font-size:11px; font-weight:600;">累計：$0</span>
-            <button type="button" id="btnClearExpenses" class="card-action-btn admin-only" onclick="clearAllExpenses()">清空花費</button>
+            <!-- 參考複製清單樣式 -->
+            <button type="button" id="btnClearExpenses" class="btn-action-bordered admin-only" onclick="clearAllExpenses()">清空花費</button>
           </div>
         </div>
         <div id="expenseList"></div>
@@ -1127,7 +1149,7 @@
       <div class="card">
         <div class="card-header">
           <span class="card-title">結算明細</span>
-          <button type="button" onclick="copySettlementSummary()" style="background:var(--bg-warm); border:1px solid var(--border-soft); padding:3px 9px; border-radius:4px; font-size:10px; cursor:pointer; color:var(--text-muted);">複製清單</button>
+          <button type="button" class="btn-action-bordered" onclick="copySettlementSummary()">複製清單</button>
         </div>
         <div id="settlementList"></div>
 
@@ -1345,15 +1367,16 @@
       const isCurrentVip = isTripVipValid();
       const remainDays = getRemainingDays();
 
-      titleEl.innerText = isCurrentVip ? "延長 VIP 通行權" : "解鎖完整功能";
+      // 1. 旅程代碼 / 2. 延長高級方案 / 3. 高級方案
+      titleEl.innerText = isCurrentVip ? "延長高級方案" : "解鎖完整功能";
       text.innerHTML = `
         <div class="pay-info-box">
           <div class="pay-info-row">
-            <span style="color:var(--text-muted);">解鎖旅程</span>
+            <span style="color:var(--text-muted);">旅程代碼</span>
             <span class="pay-badge-code">${targetCode}</span>
           </div>
           <div class="pay-info-row">
-            <span style="color:var(--text-muted);">${isCurrentVip ? '目前剩餘' : '通行方案'}</span>
+            <span style="color:var(--text-muted);">${isCurrentVip ? '目前剩餘' : '高級方案'}</span>
             <span style="color:var(--theme-dark); font-weight:600;">${isCurrentVip ? (remainDays + ' 天') : 'NT$ 60 / 季 (90天)'}</span>
           </div>
           <div class="pay-info-row">
@@ -1361,15 +1384,19 @@
             <span style="color:var(--text-main);">${isCurrentVip ? '+ 90 天 (自動疊加)' : '無人數與記帳上限'}</span>
           </div>
         </div>
-        <p class="pay-note-paragraph">
-          📌 已為您自動複製旅程代碼【${targetCode}】至剪貼簿。
-        </p>
-        <p class="pay-note-paragraph">
-          💳 請前往結帳頁面貼上，付款成功後系統將於 1 秒內自動完成解鎖。
-        </p>
+        
+        <!-- 4. 排版：文字對齊上方文字起始處，換行不縮進圖示下方 -->
+        <div class="pay-note-item">
+          <span class="pay-note-icon">📌</span>
+          <span class="pay-note-content">已為您複製旅程代碼【${targetCode}】至剪貼簿。</span>
+        </div>
+        <div class="pay-note-item">
+          <span class="pay-note-icon">💳</span>
+          <span class="pay-note-content">請前往結帳頁面貼上，付款成功後等待約 30 秒系統將自動完成解鎖。</span>
+        </div>
       `;
 
-      okBtn.innerText = isCurrentVip ? "延長通行權" : "前往付款";
+      okBtn.innerText = isCurrentVip ? "延長高級方案" : "前往付款";
       modal.style.display = 'flex';
 
       okBtn.onclick = () => {
