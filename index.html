@@ -37,7 +37,6 @@
       --art-ink-blur: #F7EEEE;
     }
 
-    /* 🌸 春・櫻落粉 (Spring) */
     body[data-theme="spring"] {
       --bg-warm: #FAF8F8;
       --theme-main: #C88A8A;
@@ -50,7 +49,6 @@
       --art-ink-blur: #F7EEEE;
     }
 
-    /* 🌿 夏・夏木綠 (Summer) */
     body[data-theme="summer"] {
       --bg-warm: #F8FAF8;
       --theme-main: #7D9D8B;
@@ -63,7 +61,6 @@
       --art-ink-blur: #EBF2ED;
     }
 
-    /* 🍁 秋・銀杏黃 (Autumn) */
     body[data-theme="autumn"] {
       --bg-warm: #FAF9F6;
       --theme-main: #BFA06E;
@@ -76,7 +73,6 @@
       --art-ink-blur: #F7F2EA;
     }
 
-    /* ❄️ 冬・暮雪藍 (Winter) */
     body[data-theme="winter"] {
       --bg-warm: #F8FAFB;
       --theme-main: #7B9EA8;
@@ -106,7 +102,6 @@
       transition: background-color 0.3s ease;
     }
 
-    /* 頂部導航 */
     .header {
       background: rgba(255, 255, 255, 0.96);
       backdrop-filter: blur(10px);
@@ -147,7 +142,6 @@
       text-overflow: ellipsis;
     }
     
-    /* 純文字身分標示 (無橢圓外框，顏色隨四季聯動) */
     .role-badge {
       font-size: 11px;
       letter-spacing: 0.5px;
@@ -158,14 +152,30 @@
       border: none;
       padding: 0 1px;
     }
-    .role-admin {
-      color: var(--theme-dark);
+    .role-admin { color: var(--theme-dark); }
+    .role-viewer { color: var(--theme-dark); }
+
+    .vip-status-tag {
+      font-size: 10.5px;
+      padding: 1px 7px;
+      border-radius: 10px;
+      font-weight: 500;
+      letter-spacing: 0.3px;
+      display: inline-flex;
+      align-items: center;
+      cursor: pointer;
     }
-    .role-viewer {
+    .vip-status-tag.pro {
+      background: var(--theme-light);
       color: var(--theme-dark);
+      border: 1px solid var(--theme-border);
+    }
+    .vip-status-tag.trial {
+      background: #F4F1EE;
+      color: var(--text-muted);
+      border: 1px solid var(--border-soft);
     }
 
-    /* 頂部四季切換小圓球 (右上角) */
     .theme-picker-group {
       display: flex;
       gap: 6px;
@@ -183,9 +193,7 @@
       outline: none;
       transition: transform 0.2s, border-color 0.2s;
     }
-    .theme-dot:active {
-      transform: scale(0.9);
-    }
+    .theme-dot:active { transform: scale(0.9); }
     .theme-dot.active {
       border-color: #3C3835;
       transform: scale(1.15);
@@ -195,7 +203,6 @@
     .theme-dot-autumn { background-color: #C9AD7F; }
     .theme-dot-winter { background-color: #8CAAB3; }
 
-    /* 第二排按鈕列 */
     .header-actions-row {
       display: flex;
       gap: 8px;
@@ -206,7 +213,6 @@
       overflow-x: auto;
     }
     
-    /* 泡泡按鈕樣式 */
     .btn-header-sub {
       font-size: 11px;
       color: var(--text-muted);
@@ -224,7 +230,6 @@
       color: var(--text-main);
     }
 
-    /* 清空旅程（右側泡泡按鈕） */
     .btn-reset-all {
       font-size: 11px;
       color: var(--text-muted);
@@ -253,7 +258,6 @@
       gap: 13px;
     }
 
-    /* 首頁水墨湖山景致 */
     .lake-scene-container {
       position: relative;
       width: 100%;
@@ -270,7 +274,6 @@
       display: block;
     }
 
-    /* 首頁：啟程大廳卡片 */
     .room-lobby-card {
       background: var(--card-bg);
       border-radius: var(--radius-lg);
@@ -280,7 +283,6 @@
       margin-top: 4px;
     }
 
-    /* 手風琴摺疊大按鈕 */
     .lobby-accordion-btn {
       width: 100%;
       background: var(--bg-warm);
@@ -322,7 +324,6 @@
       transform: rotate(180deg);
     }
 
-    /* 摺疊抽屜內容區 */
     .lobby-accordion-drawer {
       display: none;
       background: #FFFFFF;
@@ -348,7 +349,6 @@
       margin-bottom: 8px;
     }
 
-    /* 卡片共用樣式 */
     .card {
       background: var(--card-bg);
       border-radius: var(--radius-md);
@@ -380,11 +380,8 @@
       flex-shrink: 0;
       transition: color 0.2s;
     }
-    .card-action-btn:hover {
-      color: #BA7C7C;
-    }
+    .card-action-btn:hover { color: #BA7C7C; }
 
-    /* 公基金未啟用開關列 */
     .kitty-toggle-banner {
       background: var(--bg-warm);
       border: 1px dashed var(--theme-border);
@@ -396,9 +393,7 @@
       cursor: pointer;
       transition: all 0.2s;
     }
-    .kitty-toggle-banner:hover {
-      background: var(--theme-light);
-    }
+    .kitty-toggle-banner:hover { background: var(--theme-light); }
     .kitty-toggle-title {
       font-size: 12px;
       font-weight: 500;
@@ -418,7 +413,6 @@
       font-weight: 500;
     }
 
-    /* 四季粉柔公基金卡片 */
     .kitty-compact-card {
       background: linear-gradient(135deg, var(--kitty-gradient-1), var(--kitty-gradient-2));
       color: #FFFFFF;
@@ -471,9 +465,7 @@
       white-space: nowrap;
       transition: background 0.2s;
     }
-    .btn-kitty-sm:hover {
-      background: rgba(255, 255, 255, 0.32);
-    }
+    .btn-kitty-sm:hover { background: rgba(255, 255, 255, 0.32); }
     .kitty-custodian-bar {
       margin-top: 10px;
       padding-top: 10px;
@@ -493,11 +485,8 @@
       font-size: 11px;
       outline: none;
     }
-    .custodian-select option {
-      color: var(--text-main);
-    }
+    .custodian-select option { color: var(--text-main); }
 
-    /* 逐筆公基金記錄刪除按鈕 */
     .btn-del-kitty {
       background: rgba(255, 255, 255, 0.28);
       border: 1px solid rgba(255, 255, 255, 0.45);
@@ -520,7 +509,6 @@
       color: #FFFFFF;
     }
 
-    /* 旅伴網格系統 */
     .chips-grid {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(78px, 1fr));
@@ -562,11 +550,8 @@
       cursor: pointer;
       line-height: 1;
     }
-    .chip-del:hover {
-      color: #BA7C7C;
-    }
+    .chip-del:hover { color: #BA7C7C; }
 
-    /* 分攤旅伴按鈕 (未選中加上文字刪除線) */
     .split-chip {
       border: 1px solid var(--border-soft);
       background: var(--bg-warm);
@@ -594,7 +579,6 @@
       opacity: 1;
     }
 
-    /* 輸入元件 */
     .input-row {
       display: flex;
       gap: 6px;
@@ -631,14 +615,9 @@
       flex-shrink: 0;
       transition: opacity 0.2s;
     }
-    .btn-add:hover {
-      opacity: 0.88;
-    }
+    .btn-add:hover { opacity: 0.88; }
 
-    /* 表單區 */
-    .form-group {
-      margin-bottom: 10px;
-    }
+    .form-group { margin-bottom: 10px; }
     .form-label {
       display: block;
       font-size: 11px;
@@ -663,7 +642,6 @@
       gap: 8px;
     }
 
-    /* 自費設定區 */
     .custom-box {
       background: var(--bg-warm);
       border: 1px solid var(--border-soft);
@@ -691,7 +669,6 @@
       margin-top: 6px;
     }
 
-    /* 操作按鈕組 */
     .btn-submit-row {
       display: grid;
       grid-template-columns: 1fr 2fr;
@@ -724,19 +701,14 @@
       white-space: nowrap;
       transition: opacity 0.2s;
     }
-    .btn-save-expense:hover {
-      opacity: 0.9;
-    }
+    .btn-save-expense:hover { opacity: 0.9; }
 
-    /* 消費明細 */
     .expense-item {
       padding: 10px 0;
       border-bottom: 1px solid var(--border-soft);
       font-size: 12px;
     }
-    .expense-item:last-child {
-      border-bottom: none;
-    }
+    .expense-item:last-child { border-bottom: none; }
     .expense-main-row {
       display: flex;
       justify-content: space-between;
@@ -760,7 +732,6 @@
       color: var(--text-muted);
     }
 
-    /* 結算明細卡片 */
     .settle-card {
       background: var(--bg-warm);
       border: 1px solid var(--border-soft);
@@ -779,7 +750,6 @@
       white-space: nowrap;
     }
 
-    /* 收款帳號 */
     .account-card {
       background: var(--bg-warm);
       border: 1px solid var(--border-soft);
@@ -859,10 +829,36 @@
       font-weight: 600;
       letter-spacing: 0.5px;
       color: var(--text-main);
-      margin-bottom: 10px;
+      margin-bottom: 12px;
     }
 
-    /* 自訂優雅 Toast */
+    /* 付款確認小卡片排版 */
+    .pay-info-box {
+      background: var(--bg-warm);
+      border: 1px solid var(--border-soft);
+      border-radius: var(--radius-sm);
+      padding: 12px 14px;
+      margin-bottom: 14px;
+    }
+    .pay-info-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 6px;
+      font-size: 12px;
+    }
+    .pay-info-row:last-child { margin-bottom: 0; }
+    .pay-badge-code {
+      font-family: monospace;
+      font-weight: 600;
+      background: #FFFFFF;
+      border: 1px solid var(--theme-border);
+      color: var(--theme-dark);
+      padding: 2px 7px;
+      border-radius: 6px;
+      font-size: 12px;
+    }
+
     .toast-container {
       position: fixed;
       top: 24px;
@@ -891,7 +887,6 @@
 </head>
 <body data-theme="spring">
 
-  <!-- 自訂 Toast 提示容器 -->
   <div id="toast" class="toast-container"></div>
 
   <!-- 頂部導航 -->
@@ -901,11 +896,11 @@
         <span class="brand-leaf"></span>
         <h1 id="tripTitleDisplay">遠行時光</h1>
         
-        <!-- 純文字身分標示 (無橢圓外框，顏色隨四季聯動) -->
         <span id="roleBadge" class="role-badge role-viewer">旅伴檢視</span>
+        <span id="vipBadge" class="vip-status-tag trial" onclick="openStripeCheckout()" style="display:none;">🌱 體驗版</span>
       </div>
 
-      <!-- 四季色盤小圓球 (右上角) -->
+      <!-- 四季色盤小圓球 -->
       <div class="theme-picker-group">
         <button type="button" class="theme-dot theme-dot-spring active" title="春・櫻落粉" onclick="setAppTheme('spring')"></button>
         <button type="button" class="theme-dot theme-dot-summer" title="夏・夏木綠" onclick="setAppTheme('summer')"></button>
@@ -914,21 +909,12 @@
       </div>
     </div>
 
-    <!-- 頂部次功能列（第二排，總務/旅伴通用） -->
+    <!-- 頂部次功能列 -->
     <div class="header-actions-row" id="subHeaderBar" style="display:none;">
-      <!-- 總務專用按鈕：移交總務 -->
       <button type="button" id="btnAdminHandover" class="btn-header-sub admin-only" onclick="shareAdminAccess()">移交總務</button>
-      
-      <!-- 總務專用按鈕：旅伴視角（位於移交總務與分享旅程之間） -->
       <button type="button" id="btnViewAsGuest" class="btn-header-sub admin-only" onclick="switchToViewerMode()">旅伴視角</button>
-      
-      <!-- 旅伴專用按鈕：總務登入（泡泡樣式） -->
       <button type="button" id="btnLoginAdmin" class="btn-header-sub" onclick="promptLoginAdmin()" style="display:none;">總務登入</button>
-      
-      <!-- 共有：分享旅程（泡泡樣式） -->
       <button type="button" id="btnShareTrip" class="btn-header-sub" onclick="shareTripLinks()">分享旅程</button>
-      
-      <!-- 總務專用：清空旅程（靠右泡泡） -->
       <button type="button" id="btnResetTrip" class="btn-reset-all admin-only" onclick="resetEntireTrip()">清空旅程</button>
     </div>
   </header>
@@ -938,7 +924,6 @@
     <!-- 0. 首頁大廳 -->
     <div id="roomLobbySection" class="room-lobby-card" style="display:none;">
       
-      <!-- 手繪寫意多洛米堤湖山景致 -->
       <div class="lake-scene-container">
         <svg class="lake-scene-svg" viewBox="0 0 320 215" fill="none" xmlns="http://www.w3.org/2000/svg">
           <defs>
@@ -948,121 +933,29 @@
               <feDisplacementMap in="blur" in2="noise" scale="8" xChannelSelector="R" yChannelSelector="G" />
             </filter>
           </defs>
-
-          <!-- 1. 洗墨與墨暈效果 -->
           <g filter="url(#naturalBleed)" opacity="0.45">
             <path d="M 20,110 Q 55,95 85,115 T 140,90 T 195,110 T 250,95 T 300,110 T 270,165 T 210,180 T 130,170 T 70,185 T 15,145 Z" fill="var(--art-ink-blur)" />
             <path d="M 45,100 Q 95,85 155,105 T 255,90 T 290,120 T 240,150 T 160,155 T 80,145 T 35,120 Z" fill="var(--art-ink-blur)" opacity="0.6" />
             <path d="M 12,120 Q 50,115 90,122 T 180,118 T 260,124 T 308,120 T 250,135 T 150,138 T 60,135 Z" fill="var(--art-stroke)" opacity="0.12" />
           </g>
-
-          <!-- 2. 手繪感潑墨與墨點 -->
           <g fill="var(--art-stroke)" opacity="0.22">
-            <circle cx="12" cy="135" r="1.5" />
-            <circle cx="28" cy="122" r="0.8" />
-            <circle cx="45" cy="142" r="1.2" />
-            <circle cx="15" cy="155" r="0.6" />
-            <circle cx="38" cy="165" r="1.4" />
-            <circle cx="58" cy="172" r="0.8" />
-            <circle cx="82" cy="182" r="2.0" />
-            <circle cx="95" cy="168" r="0.6" />
-            <circle cx="112" cy="188" r="1.1" />
-            <circle cx="128" cy="195" r="0.8" />
-            <circle cx="145" cy="185" r="0.5" />
-            <circle cx="168" cy="202" r="1.6" />
-            <circle cx="188" cy="182" r="0.7" />
-            <circle cx="212" cy="195" r="1.5" />
-            <circle cx="230" cy="180" r="0.8" />
-            <circle cx="248" cy="188" r="1.3" />
-            <circle cx="262" cy="172" r="0.9" />
-            <circle cx="278" cy="185" r="1.8" />
-            <circle cx="295" cy="158" r="0.5" />
-            <circle cx="308" cy="165" r="1.4" />
-            <circle cx="314" cy="145" r="0.7" />
-            <circle cx="22" cy="148" r="0.4" /><circle cx="32" cy="152" r="0.4" /><circle cx="50" cy="158" r="0.5" />
-            <circle cx="72" cy="175" r="0.4" /><circle cx="120" cy="192" r="0.4" /><circle cx="158" cy="192" r="0.5" />
-            <circle cx="198" cy="190" r="0.4" /><circle cx="255" cy="182" r="0.4" /><circle cx="288" cy="175" r="0.5" />
+            <circle cx="12" cy="135" r="1.5" /><circle cx="28" cy="122" r="0.8" /><circle cx="45" cy="142" r="1.2" />
+            <circle cx="15" cy="155" r="0.6" /><circle cx="38" cy="165" r="1.4" /><circle cx="58" cy="172" r="0.8" />
+            <circle cx="82" cy="182" r="2.0" /><circle cx="95" cy="168" r="0.6" /><circle cx="112" cy="188" r="1.1" />
+            <circle cx="128" cy="195" r="0.8" /><circle cx="145" cy="185" r="0.5" /><circle cx="168" cy="202" r="1.6" />
+            <circle cx="188" cy="182" r="0.7" /><circle cx="212" cy="195" r="1.5" /><circle cx="230" cy="180" r="0.8" />
+            <circle cx="248" cy="188" r="1.3" /><circle cx="262" cy="172" r="0.9" /><circle cx="278" cy="185" r="1.8" />
+            <circle cx="295" cy="158" r="0.5" /><circle cx="308" cy="165" r="1.4" /><circle cx="314" cy="145" r="0.7" />
           </g>
-
-          <!-- 3. 雙圓太陽 -->
           <g stroke="var(--art-stroke)" stroke-width="0.8" fill="none" opacity="0.85">
             <circle cx="118" cy="38" r="12" stroke="var(--art-stroke)" stroke-width="1.1" />
             <circle cx="119" cy="37" r="13.5" stroke="var(--art-stroke)" stroke-width="0.75" opacity="0.8" />
-            <path d="M118 21 L118 18 M118 53 L118 56 M101 38 L104 38 M132 38 L135 38 M106 25 L108 27 M129 25 L127 27 M106 49 L108 47 M129 49 L127 47 M109 20 L110 22 M126 20 L125 22 M102 31 L104 32 M134 31 L132 32 M102 44 L104 43 M134 44 L132 43 M109 54 L110 52 M126 54 L125 52" />
           </g>
-
-          <!-- 4. 山峰線條 -->
           <path d="M 12 118 Q 28 92 46 72 T 80 50 L 82 52 T 108 86 T 138 104" stroke="var(--art-stroke)" stroke-width="1.3" stroke-linecap="round" fill="none" opacity="0.85" />
           <path d="M 80 50 Q 105 78 135 94 T 172 110" stroke="var(--art-stroke)" stroke-width="0.8" stroke-linecap="round" fill="none" opacity="0.4" />
           <path d="M 106 86 Q 138 65 174 54 T 212 40 L 214 42 T 245 72 T 282 86" stroke="var(--art-stroke)" stroke-width="1.3" stroke-linecap="round" fill="none" opacity="0.9" />
-          <path d="M 174 54 Q 195 76 225 90 T 260 102" stroke="var(--art-stroke)" stroke-width="0.8" stroke-linecap="round" fill="none" opacity="0.4" />
-          <path d="M 212 40 Q 235 62 262 76 T 298 90 T 312 112" stroke="var(--art-stroke)" stroke-width="1" stroke-linecap="round" fill="none" opacity="0.8" />
-
-          <!-- 5. 山脈肌理 -->
-          <path d="M 46 72 L 44 76 M 52 82 L 50 87 M 58 94 L 54 100 M 64 105 L 61 112 M 140 104 L 138 112 M 148 98 L 145 106" stroke="var(--art-stroke)" stroke-width="0.5" opacity="0.45" />
-          <path d="M 245 72 L 243 78 M 252 84 L 248 91 M 262 92 L 257 101" stroke="var(--art-stroke)" stroke-width="0.5" opacity="0.45" />
-          <path d="M 195 62 L 191 69 M 202 75 L 198 83 M 209 88 L 204 97 M 218 92 L 214 102" stroke="var(--art-stroke)" stroke-width="0.5" opacity="0.4" />
-          <path d="M 132 80 L 129 86 M 120 90 L 117 96" stroke="var(--art-stroke)" stroke-width="0.5" opacity="0.4" />
-          <path d="M 285 75 L 282 82 M 292 86 L 289 94" stroke="var(--art-stroke)" stroke-width="0.5" opacity="0.4" />
-
-          <!-- 6. 雲霧 -->
-          <path d="M 85 85 Q 98 75 112 80" stroke="var(--art-stroke)" stroke-width="0.6" stroke-linecap="round" fill="none" opacity="0.5" />
-          <path d="M 125 72 Q 138 65 152 70 Q 165 72 175 66" stroke="var(--art-stroke)" stroke-width="0.6" stroke-linecap="round" fill="none" opacity="0.4" />
-          <path d="M 242 66 Q 255 58 268 62" stroke="var(--art-stroke)" stroke-width="0.6" stroke-linecap="round" fill="none" opacity="0.4" />
-
-          <!-- 7. 飛鳥點綴 -->
-          <path d="M 160 52 Q 163 49 166 52 Q 169 49 172 52" stroke="var(--art-stroke)" stroke-width="0.75" stroke-linecap="round" fill="none" opacity="0.6" />
-          <path d="M 180 44 Q 182 42 184 44 Q 186 42 188 44" stroke="var(--art-stroke)" stroke-width="0.6" stroke-linecap="round" fill="none" opacity="0.5" />
-          <path d="M 275 66 Q 277 64 279 66 Q 281 64 283 66" stroke="var(--art-stroke)" stroke-width="0.6" stroke-linecap="round" fill="none" opacity="0.5" />
-          <path d="M 288 56 Q 290 54 292 56 Q 294 54 296 56" stroke="var(--art-stroke)" stroke-width="0.6" stroke-linecap="round" fill="none" opacity="0.5" />
-
-          <!-- 8. 水際與岸線 -->
-          <path d="M 12 118 C 40 115 80 113 130 115 C 180 117 240 114 272 113 C 285 113 302 115 311 116" stroke="var(--art-stroke)" stroke-width="1.1" stroke-linecap="round" fill="none" opacity="0.7" />
-          <path d="M 10 119 C 15 123 18 130 15 134 C 12 137 8 139 6 141" stroke="var(--art-stroke)" stroke-width="0.8" fill="none" opacity="0.6" />
-          <path d="M 12 118 C 25 120 38 123 55 129 C 70 134 85 137 94 139" stroke="var(--art-stroke)" stroke-width="0.85" fill="none" opacity="0.6" stroke-dasharray="40 12" />
-          <path d="M 252 114 C 258 118 268 124 282 129 C 295 134 308 132 314 129" stroke="var(--art-stroke)" stroke-width="0.8" fill="none" opacity="0.5" />
-          <path d="M 280 113 C 285 117 290 122 298 127" stroke="var(--art-stroke)" stroke-width="0.6" fill="none" opacity="0.4" stroke-dasharray="10 6" />
-
-          <!-- 9. 松樹與景物 -->
-          <path d="M 222 115 L 225 111 M 227 115 L 230 110 M 232 115 L 235 111 M 238 115 L 241 110 M 245 115 L 248 111 M 253 115 L 256 110 M 259 115 L 262 111" stroke="var(--art-stroke)" stroke-width="0.6" opacity="0.5" />
-          <path d="M 221 114 Q 240 113 261 113" stroke="var(--art-stroke)" stroke-width="0.5" fill="none" opacity="0.5" />
-          <path d="M 12 108 L 14 119 M 10 115 L 16 115 M 12 111 L 15 111" stroke="var(--art-stroke)" stroke-width="0.9" opacity="0.75" />
-          <path d="M 18 103 L 20 119 M 15 114 L 23 114 M 17 108 L 21 108" stroke="var(--art-stroke)" stroke-width="1.1" opacity="0.8" />
-          <path d="M 24 110 L 25 119 M 22 116 L 27 116 M 23 113 L 26 113" stroke="var(--art-stroke)" stroke-width="0.8" opacity="0.7" />
-          <path d="M 32 116 L 33 122 M 30 120 L 35 120" stroke="var(--art-stroke)" stroke-width="0.7" opacity="0.6" />
-          <path d="M 288 102 L 290 119 M 285 114 L 293 114 M 287 108 L 291 108" stroke="var(--art-stroke)" stroke-width="1" opacity="0.7" />
-          <path d="M 296 99 L 298 119 M 291 113 L 303 113 M 294 106 L 300 106" stroke="var(--art-stroke)" stroke-width="1.2" opacity="0.8" />
-          <path d="M 305 107 L 306 119 M 302 115 L 308 115" stroke="var(--art-stroke)" stroke-width="0.8" opacity="0.65" />
-
-          <!-- 10. 小木舟 -->
-          <g opacity="0.75" stroke="var(--art-stroke)" fill="none" stroke-linecap="round">
-            <path d="M 130 130 Q 140 134 152 130 Q 140 131 130 130 Z" stroke-width="1" />
-            <path d="M 134 131 L 131 134 M 136 131 L 140 135" stroke-width="0.6" />
-            <path d="M 125 133 C 135 135 145 135 155 133" stroke-dasharray="1 2" stroke-width="0.6" />
-          </g>
-          <g opacity="0.75" stroke="var(--art-stroke)" fill="none" stroke-linecap="round">
-            <path d="M 194 132 Q 204 136 216 132 Q 204 133 194 132 Z" stroke-width="1" />
-            <path d="M 198 133 L 195 136 M 200 133 L 204 137" stroke-width="0.6" />
-            <path d="M 189 135 C 199 137 209 137 219 135" stroke-dasharray="1 2" stroke-width="0.6" />
-          </g>
-
-          <!-- 11. 水波紋與標題 -->
-          <path d="M 40 126 C 100 123 180 123 280 126" stroke="var(--art-stroke)" stroke-width="0.7" opacity="0.45" />
-          <path d="M 28 132 C 80 128 160 128 240 132" stroke="var(--art-stroke)" stroke-width="0.65" opacity="0.4" stroke-dasharray="120 40 60 0" />
-          <path d="M 55 139 C 110 135 190 135 275 139" stroke="var(--art-stroke)" stroke-width="0.6" opacity="0.38" />
-          <path d="M 18 146 C 70 141 150 141 210 146 Q 248 145 282 147" stroke="var(--art-stroke)" stroke-width="0.55" opacity="0.32" stroke-dasharray="60 10 30 10 60 0" />
-          
           <text x="160" y="161" font-size="22" font-weight="600" text-anchor="middle" fill="var(--text-main)" letter-spacing="1.5">遠行與日常</text>
           <text x="160" y="179" font-size="11.5" text-anchor="middle" fill="var(--text-muted)" letter-spacing="0.5">隨手記錄帳目 · 時間留予旅途</text>
-
-          <path d="M 32 154 C 92 149 172 149 252 154 C 275 153 285 155 292 156" stroke="var(--art-stroke)" stroke-width="0.5" opacity="0.28" stroke-dasharray="80 30 80 0" />
-          <path d="M 18 162 C 65 157 135 157 195 162 C 220 161 242 163 268 162" stroke="var(--art-stroke)" stroke-width="0.5" opacity="0.25" stroke-dasharray="40 5 90 5 40 0" />
-          <path d="M 52 170 C 112 165 182 165 242 170 C 255 169 270 171 282 171" stroke="var(--art-stroke)" stroke-width="0.45" opacity="0.2" />
-          <path d="M 32 178 C 75 173 135 173 185 178 C 205 177 225 179 248 178" stroke="var(--art-stroke)" stroke-width="0.4" opacity="0.18" stroke-dasharray="30 8 70 8 30 0" />
-          <path d="M 72 184 Q 155 180 238 184" stroke="var(--art-stroke)" stroke-width="0.4" opacity="0.15" stroke-dasharray="40 10 60 0" />
-          <path d="M 45 190 C 88 186 148 186 190 190" stroke="var(--art-stroke)" stroke-width="0.35" opacity="0.1" />
-          <path d="M 105 196 Q 160 193 215 196" stroke="var(--art-stroke)" stroke-width="0.35" opacity="0.08" stroke-dasharray="20 5 40 0" />
-          <path d="M 78 202 C 118 199 158 199 198 202" stroke="var(--art-stroke)" stroke-width="0.3" opacity="0.06" />
         </svg>
       </div>
 
@@ -1085,7 +978,7 @@
         <div style="margin-bottom:12px;">
           <div class="lobby-form-row" style="margin-bottom:4px;">
             <input type="text" id="customRoomLicenseInput" class="input-text" placeholder="總務通行碼 (選填，解鎖完整版)" style="font-family:monospace; text-transform:uppercase;">
-            <button type="button" class="btn-header-sub" style="padding:0 10px; font-size:11px; flex-shrink:0;" onclick="openStripeCheckout()">購買 ($100/年)</button>
+            <button type="button" class="btn-header-sub" style="padding:0 10px; font-size:11px; flex-shrink:0;" onclick="openStripeCheckout()">購買 ($60/季)</button>
           </div>
           <span style="font-size:10.5px; color:var(--text-light); display:block; line-height:1.4;">未填寫將以「體驗版」開啟（上限 5 位旅伴與 3 筆花費）。</span>
         </div>
@@ -1114,7 +1007,7 @@
     <!-- 主功能區 -->
     <div id="mainAppSection" style="display:flex; flex-direction:column; gap:13px;">
 
-      <!-- (1) 旅伴收支小記 (預設收合) -->
+      <!-- (1) 旅伴收支小記 -->
       <div class="card">
         <div class="card-header" style="margin-bottom:0; cursor:pointer;" onclick="toggleStatsDrawer()">
           <span class="card-title">旅伴收支小記</span>
@@ -1144,13 +1037,11 @@
       </div>
 
       <!-- (3) 公基金模組 -->
-      <!-- A. 公基金未啟用開關列 -->
       <div id="kittyInactiveBanner" class="kitty-toggle-banner" style="display:none;" onclick="toggleKittyFeature(true)">
         <span class="kitty-toggle-title">💰 本趟旅程尚未啟用公基金</span>
         <button type="button" class="kitty-toggle-btn admin-only">＋ 啟用公基金</button>
       </div>
 
-      <!-- B. 公基金作用卡片 -->
       <div id="kittyActiveCard" class="card kitty-compact-card" style="display:none;">
         <div class="kitty-row">
           <div class="kitty-left">
@@ -1217,7 +1108,6 @@
           <div id="splitButtonsContainer" class="chips-grid" style="margin-top:0;"></div>
         </div>
 
-        <!-- 按鈕 -->
         <div class="btn-submit-row">
           <button type="button" class="btn-clear-form" onclick="clearExpenseForm()">清除重填</button>
           <button type="button" class="btn-save-expense" onclick="addExpense()">記錄支出</button>
@@ -1236,7 +1126,7 @@
         <div id="expenseList"></div>
       </div>
 
-      <!-- (6) 結算明細 (完全開放正常顯示，不設遮罩) -->
+      <!-- (6) 結算明細 -->
       <div class="card">
         <div class="card-header">
           <span class="card-title">結算明細</span>
@@ -1294,12 +1184,12 @@
     </div>
   </div>
 
-  <!-- 自訂確認彈窗 -->
+  <!-- 自訂確認/付款彈窗 -->
   <div id="confirmModal" class="modal-overlay" style="display:none;">
     <div class="modal-box">
-      <div class="modal-title">提示</div>
-      <p id="confirmModalMsg" style="font-size:13px; color:var(--text-main); margin-bottom:16px; line-height:1.5;"></p>
-      <div style="display:flex; gap:8px;">
+      <div class="modal-title" id="confirmModalTitle">提示</div>
+      <div id="confirmModalMsg"></div>
+      <div style="display:flex; gap:8px; margin-top:16px;">
         <button type="button" class="btn-clear-form" style="flex:1;" id="btnConfirmCancel">取消</button>
         <button type="button" class="btn-save-expense" style="flex:1;" id="btnConfirmOk">確認</button>
       </div>
@@ -1326,7 +1216,7 @@
     setAppTheme(savedTheme);
 
     // ==========================================
-    // 1. Firebase 連線設定 (v2 獨立專案)
+    // 1. Firebase 連線設定
     // ==========================================
     const firebaseConfig = {
       apiKey: "AIzaSyACdg1tjVIVbf631KSBCkmxMynjcCaONb0",
@@ -1353,7 +1243,7 @@
     let isAdmin = urlParams.get('admin') === '1';
 
     // ==========================================
-    // 2. 狀態模型與自訂優雅提示
+    // 2. 狀態模型
     // ==========================================
     let state = {
       createdAt: null,
@@ -1361,6 +1251,7 @@
       password: "",
       licenseKey: "",
       isProVersion: false,
+      proUntil: null,          // VIP 到期時間戳記
       kittyEnabled: false,
       members: [],          
       custodian: "",        
@@ -1395,13 +1286,15 @@
       }, 3000);
     }
 
-    function showConfirm(msg, onOk, onCancel) {
+    function showConfirm(msg, onOk, onCancel, title = "提示") {
       const modal = document.getElementById('confirmModal');
       const text = document.getElementById('confirmModalMsg');
+      const titleEl = document.getElementById('confirmModalTitle');
       const okBtn = document.getElementById('btnConfirmOk');
       const cancelBtn = document.getElementById('btnConfirmCancel');
 
-      text.innerText = msg;
+      titleEl.innerText = title;
+      text.innerHTML = `<p style="font-size:13px; color:var(--text-main); line-height:1.5;">${msg}</p>`;
       modal.style.display = 'flex';
 
       okBtn.onclick = () => {
@@ -1414,27 +1307,85 @@
       };
     }
 
-    // 前往 Gumroad 付款頁面升級當前旅程
+    // 檢查目前旅程是否處於有效 VIP 狀態
+    function isTripVipValid() {
+      if (state.proUntil && Number(state.proUntil) > Date.now()) return true;
+      if (state.isProVersion === true) return true;
+      return false;
+    }
+
+    // 計算 VIP 剩餘天數
+    function getRemainingDays() {
+      if (!state.proUntil) return state.isProVersion ? 999 : 0;
+      const diff = Number(state.proUntil) - Date.now();
+      return Math.max(0, Math.ceil(diff / (1000 * 60 * 60 * 24)));
+    }
+
+    // 精美排版的 Gumroad 付款泡泡彈窗（同時支援首頁與系統內）
     function openStripeCheckout() {
-      if (!currentTripId) return;
-    
-      // 嘗試自動複製旅程代碼至剪貼簿，方便買家直接貼上
-      if (navigator.clipboard && navigator.clipboard.writeText) {
-        navigator.clipboard.writeText(currentTripId).catch(() => {});
+      let targetCode = currentTripId;
+
+      // 若在首頁大廳，自動抓取輸入框的代碼
+      if (!targetCode) {
+        const inputEl = document.getElementById('customRoomCodeInput');
+        targetCode = inputEl ? inputEl.value.trim().toLowerCase() : "";
       }
-    
-      showConfirm(
-        `確定要永久解鎖旅程【${currentTripId}】為 VIP 完整版嗎？\n\n📌 結帳時請在「請填寫旅程代碼」欄位填入：${currentTripId}（已自動為您複製）`,
-        () => {
-          // 你的 Gumroad 正式商品購買連結
-          const gumroadUrl = 'https://orice2.gumroad.com/l/jaephu';
-          window.open(gumroadUrl, '_blank');
-        }
-      );
+
+      if (!targetCode) {
+        showToast('請先填寫要解鎖的旅程代碼');
+        const inputEl = document.getElementById('customRoomCodeInput');
+        if (inputEl) inputEl.focus();
+        return;
+      }
+
+      // 自動複製代碼
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(targetCode).catch(() => {});
+      }
+
+      const modal = document.getElementById('confirmModal');
+      const text = document.getElementById('confirmModalMsg');
+      const titleEl = document.getElementById('confirmModalTitle');
+      const okBtn = document.getElementById('btnConfirmOk');
+      const cancelBtn = document.getElementById('btnConfirmCancel');
+
+      titleEl.innerText = "解鎖完整功能";
+      text.innerHTML = `
+        <div class="pay-info-box">
+          <div class="pay-info-row">
+            <span style="color:var(--text-muted);">解鎖旅程</span>
+            <span class="pay-badge-code">${targetCode}</span>
+          </div>
+          <div class="pay-info-row">
+            <span style="color:var(--text-muted);">通行方案</span>
+            <span style="color:var(--theme-dark); font-weight:600;">NT$ 60 / 季 (90天)</span>
+          </div>
+          <div class="pay-info-row">
+            <span style="color:var(--text-muted);">權限升級</span>
+            <span style="color:var(--text-main);">無人數與記帳上限</span>
+          </div>
+        </div>
+        <p style="font-size:11.5px; color:var(--text-muted); line-height:1.5;">
+          已自動為您複製旅程代碼。前往付款頁面貼上即可於 1 秒內自動完成解鎖。
+        </p>
+      `;
+
+      okBtn.innerText = "前往付款";
+      modal.style.display = 'flex';
+
+      okBtn.onclick = () => {
+        modal.style.display = 'none';
+        const gumroadUrl = 'https://orice2.gumroad.com/l/jaephu';
+        window.open(gumroadUrl, '_blank');
+      };
+
+      cancelBtn.onclick = () => {
+        modal.style.display = 'none';
+      };
     }
 
     // ==========================================
-    // 3. 首頁手風琴摺疊與登入邏輯
+    // 3. 首頁大廳邏輯
     // ==========================================
     function toggleLobbyAccordion(type) {
       const drawerCreate = document.getElementById('drawer-create');
@@ -1491,7 +1442,6 @@
           document.getElementById('joinRoomCodeInput').value = code;
           toggleLobbyAccordion('join');
         } else {
-          // 判斷是否填入通行碼啟用 VIP
           const isPro = Boolean(license);
 
           db.ref('trips/' + code).set({
@@ -1500,6 +1450,7 @@
             password: hashedPin,
             licenseKey: license || "",
             isProVersion: isPro,
+            proUntil: isPro ? (Date.now() + 90 * 86400000) : null,
             kittyEnabled: false,
             members: [],
             custodian: "",
@@ -1507,10 +1458,7 @@
             expenses: [],
             memberBanks: {}
           }, (err) => {
-            if (err) {
-              console.error("建立旅程失敗：", err);
-              return showToast("建立失敗：" + err.message);
-            }
+            if (err) return showToast("建立失敗：" + err.message);
             sessionStorage.setItem('godutch_auth_' + code, hashedPin);
             sessionStorage.setItem('godutch_raw_pin_' + code, pin);
             sessionStorage.setItem('godutch_just_created_' + code, isPro ? 'pro' : 'trial');
@@ -1580,7 +1528,6 @@
       copyToClipboard(msg, '已複製總務管理連結與密碼');
     }
 
-    // 總務切換至旅伴視角
     function switchToViewerMode() {
       isAdmin = false;
       window.history.replaceState({}, '', `${window.location.pathname}?trip=${currentTripId}`);
@@ -1589,7 +1536,6 @@
       showToast('已切換至旅伴視角');
     }
 
-    // 旅伴點擊「總務登入」按鈕輸入密碼
     async function promptLoginAdmin() {
       if (!db || !currentTripId) {
         window.location.href = `${window.location.pathname}?trip=${currentTripId}&admin=1`;
@@ -1620,7 +1566,7 @@
     }
 
     // ==========================================
-    // 4. 資料同步與嚴格驗證
+    // 4. 資料同步與初始化
     // ==========================================
     let pinModalResolver = null;
 
@@ -1650,6 +1596,7 @@
         document.getElementById('mainAppSection').style.display = 'none';
         document.getElementById('subHeaderBar').style.display = 'none';
         document.getElementById('roleBadge').style.display = 'none';
+        document.getElementById('vipBadge').style.display = 'none';
         return;
       }
 
@@ -1696,12 +1643,11 @@
 
       updateRoleUI();
 
-      // 初次建立體驗版時跳出提醒泡泡說明
       const justCreatedType = sessionStorage.getItem('godutch_just_created_' + currentTripId);
       if (justCreatedType === 'trial') {
         sessionStorage.removeItem('godutch_just_created_' + currentTripId);
         setTimeout(() => {
-          showToast('🌱 目前為體驗版（上限 5 位旅伴、3 筆花費），輸入通行碼可解鎖完整功能。');
+          showToast('🌱 目前為體驗版（上限 5 位旅伴、3 筆花費），可隨時升級解鎖。');
         }, 800);
       }
 
@@ -1714,29 +1660,21 @@
             state.adminPin = val.adminPin || val.password || "";
             state.password = val.password || val.adminPin || "";
             state.licenseKey = val.licenseKey || "";
-            state.isProVersion = (val.isProVersion === true);
+            state.proUntil = val.proUntil || null;
+            state.isProVersion = isTripVipValid();
             state.kittyEnabled = (val.kittyEnabled === true);
             
-            // 雙重相容：支援陣列與物件格式解析
             state.members = Array.isArray(val.members) ? val.members : (val.members ? Object.values(val.members) : []);
             state.custodian = val.custodian || "";
             state.memberBanks = val.memberBanks || {};
             state.kittyDeposits = Array.isArray(val.kittyDeposits) ? val.kittyDeposits : (val.kittyDeposits ? Object.values(val.kittyDeposits) : []);
             state.expenses = Array.isArray(val.expenses) ? val.expenses : (val.expenses ? Object.values(val.expenses) : []);
           } else {
-            state = { createdAt: Date.now(), adminPin: "", password: "", licenseKey: "", isProVersion: false, kittyEnabled: false, members: [], custodian: "", memberBanks: {}, kittyDeposits: [], expenses: [] };
+            state = { createdAt: Date.now(), adminPin: "", password: "", licenseKey: "", isProVersion: false, proUntil: null, kittyEnabled: false, members: [], custodian: "", memberBanks: {}, kittyDeposits: [], expenses: [] };
           }
           selectedSplitters = state.members.slice();
           renderAll();
         });
-      } else {
-        const localKey = 'godutch_trip_' + currentTripId;
-        const saved = localStorage.getItem(localKey);
-        if (saved) {
-          try { state = JSON.parse(saved); } catch (e) {}
-        }
-        selectedSplitters = state.members.slice();
-        renderAll();
       }
     }
 
@@ -1763,24 +1701,19 @@
       if (tripRef && isAdmin) {
         if (!state.createdAt) state.createdAt = Date.now();
         tripRef.set(state, (err) => {
-          if (err) {
-            console.error("Firebase 同步失敗：", err);
-            showToast("同步失敗：" + err.message);
-          }
+          if (err) showToast("同步失敗：" + err.message);
         });
-      } else if (!db) {
-        localStorage.setItem('godutch_trip_' + currentTripId, JSON.stringify(state));
       }
       renderAll();
     }
 
     // ==========================================
-    // 5. 公基金開關與運算
+    // 5. 公基金與旅伴管理
     // ==========================================
     function toggleKittyFeature(enable) {
       if (!isAdmin) return;
       if (!enable && getKittyBalance() !== 0) {
-        showConfirm('目前公基金仍有餘額或收支，確定要關閉公基金功能嗎？（記錄仍會保留）', () => {
+        showConfirm('目前公基金仍有餘額，確定要關閉功能嗎？（記錄仍會保留）', () => {
           state.kittyEnabled = false;
           syncState();
           showToast('已關閉公基金功能');
@@ -1789,7 +1722,7 @@
       }
       state.kittyEnabled = enable;
       syncState();
-      showToast(enable ? '已啟用公基金功能' : '已關閉公基金功能');
+      showToast(enable ? '已啟用公基金' : '已關閉公基金');
     }
 
     function getKittyBalance() {
@@ -1825,7 +1758,7 @@
 
     function openKittyModal() {
       if (!isAdmin) return;
-      if (state.members.length === 0) return showToast('請先在下方全員名冊加入旅伴');
+      if (state.members.length === 0) return showToast('請先加入旅伴名冊');
       document.getElementById('kittyAmountInput').value = '';
       switchDepositType(document.getElementById('kittyDepositType').value);
       document.getElementById('kittyModal').style.display = 'flex';
@@ -1894,11 +1827,9 @@
     function addMember() {
       if (!isAdmin) return;
 
-      // 體驗版名冊上限 5 位（含總務本人）限制
-      if (!state.isProVersion && state.members.length >= 5) {
-        return showConfirm('體驗版最多支援加入 5 位旅伴（含總務本人）。是否升級 VIP 通行碼解鎖人數限制？', () => {
-          openStripeCheckout();
-        });
+      // 體驗版名冊上限 5 位限制（加入第 6 位時跳出升級提示）
+      if (!isTripVipValid() && state.members.length >= 5) {
+        return openStripeCheckout();
       }
 
       if (state.members.length >= 30) return showToast('旅伴人數已達系統上限 (30人)');
@@ -1939,13 +1870,13 @@
     }
 
     // ==========================================
-    // 6. 記錄支出 (自費、扣抵、分攤)
+    // 6. 記錄支出
     // ==========================================
     function toggleCustomSection() {
       const area = document.getElementById('customArea');
       const btn = document.getElementById('customToggleBtn');
       if (area.style.display === 'none') {
-        if (state.members.length === 0) return showToast('請先在全員名冊加入旅伴');
+        if (state.members.length === 0) return showToast('請先加入旅伴名冊');
         area.style.display = 'block';
         btn.innerText = '取消自費';
         if (customSplits.length === 0) addCustomRow();
@@ -2026,13 +1957,11 @@
 
     function addExpense() {
       if (!isAdmin) return;
-      if (state.members.length === 0) return showToast('請先加入全員名冊');
+      if (state.members.length === 0) return showToast('請先加入旅伴名冊');
 
       // 體驗版花費上限 3 筆限制（記錄第 4 筆時阻擋）
-      if (!state.isProVersion && state.expenses.length >= 3) {
-        return showConfirm('體驗版最多支援記錄 3 筆支出。是否升級 VIP 通行碼解鎖完整功能？', () => {
-          openStripeCheckout();
-        });
+      if (!isTripVipValid() && state.expenses.length >= 3) {
+        return openStripeCheckout();
       }
 
       if (state.expenses.length >= 300) return showToast('消費筆數已達系統上限 (300筆)');
@@ -2095,7 +2024,7 @@
     }
 
     // ==========================================
-    // 7. 收支統計與精確結算演算法
+    // 7. 統計與結算
     // ==========================================
     function computeMemberStatistics() {
       const stats = {};
@@ -2137,7 +2066,6 @@
       const balance = {};
       state.members.forEach(m => balance[m] = 0);
 
-      // A. 公基金啟用時：將個人預繳的公基金記入個人資產池
       if (state.kittyEnabled && Array.isArray(state.kittyDeposits)) {
         state.kittyDeposits.forEach(d => {
           if (d.type === 'all') {
@@ -2154,7 +2082,6 @@
         });
       }
 
-      // B. 納入付款人代墊款，並扣除個人實際消費額
       state.expenses.forEach(exp => {
         const effectivePaid = state.kittyEnabled 
           ? (Number(exp.personalPaid) || 0) 
@@ -2182,7 +2109,6 @@
         }
       });
 
-      // C. 公基金啟用時：總務持有之剩餘現鈔沖銷抵扣
       const kittyBal = getKittyBalance();
       if (state.kittyEnabled && state.custodian && balance[state.custodian] !== undefined) {
         balance[state.custodian] -= kittyBal;
@@ -2232,6 +2158,22 @@
     // 8. 畫面渲染
     // ==========================================
     function renderAll() {
+      // VIP 狀態標記渲染
+      const vipBadge = document.getElementById('vipBadge');
+      if (currentTripId) {
+        vipBadge.style.display = 'inline-flex';
+        if (isTripVipValid()) {
+          const days = getRemainingDays();
+          vipBadge.innerText = days > 365 ? '✨ VIP 完整版' : `✨ VIP 剩 ${days} 天`;
+          vipBadge.className = 'vip-status-tag pro';
+        } else {
+          vipBadge.innerText = '🌱 體驗版 (解鎖)';
+          vipBadge.className = 'vip-status-tag trial';
+        }
+      } else {
+        vipBadge.style.display = 'none';
+      }
+
       const inactiveBanner = document.getElementById('kittyInactiveBanner');
       const activeCard = document.getElementById('kittyActiveCard');
 
@@ -2246,13 +2188,11 @@
       const kittyBal = getKittyBalance();
       document.getElementById('kittyBalanceDisplay').innerText = `$${Math.round(kittyBal).toLocaleString()}`;
 
-      // 保管人選單
       const cSelect = document.getElementById('custodianSelect');
       cSelect.innerHTML = `<option value="">未指定</option>` + state.members.map(m => 
         `<option value="${m}" ${state.custodian === m ? 'selected' : ''}>${m}</option>`
       ).join('');
 
-      // 公基金紀錄抽屜
       const kLogs = document.getElementById('kittyDepositLogs');
       if (!state.kittyDeposits || state.kittyDeposits.length === 0) {
         kLogs.innerHTML = '<span style="opacity:0.75;">尚無公基金收款紀錄</span>';
@@ -2265,7 +2205,6 @@
         `).join('');
       }
 
-      // 旅伴收支小記
       const stats = computeMemberStatistics();
       const statsBox = document.getElementById('memberStatsContainer');
       if (state.members.length === 0) {
@@ -2288,7 +2227,6 @@
         }).join('');
       }
 
-      // 成員網格名單
       document.getElementById('memberCountBadge').innerText = state.members.length;
       const mContainer = document.getElementById('membersContainer');
       mContainer.innerHTML = state.members.map(m => `
@@ -2298,7 +2236,6 @@
         </span>
       `).join('') || '<span class="empty-hint" style="grid-column:1/-1; padding:4px 0;">尚未加入任何名冊成員</span>';
 
-      // 付款人下拉選單
       const pSelect = document.getElementById('payerSelect');
       const curPayer = pSelect.value;
       pSelect.innerHTML = state.members.map(m => {
@@ -2309,7 +2246,6 @@
       renderSplitButtons();
       renderCustomList();
 
-      // 消費清單
       const expList = document.getElementById('expenseList');
       let total = 0;
       if (state.expenses.length === 0) {
@@ -2350,7 +2286,6 @@
       }
       document.getElementById('totalCostDisplay').innerText = `累計：$${Math.round(total).toLocaleString()}`;
 
-      // 結算列表 (完全開放正常顯示)
       const setList = document.getElementById('settlementList');
       const { transactions, creditors } = computeSettlement();
       if (transactions.length === 0) {
@@ -2364,7 +2299,6 @@
         `).join('');
       }
 
-      // 收款帳號列表
       const accList = document.getElementById('accountList');
       if (creditors.length === 0) {
         accList.innerHTML = '<span style="font-size:11px; color:var(--text-light);">尚無收款需求</span>';
@@ -2452,7 +2386,7 @@
     function resetEntireTrip() {
       if (!isAdmin) return;
       showConfirm('確定清空這趟旅程的所有紀錄嗎？', () => {
-        state = { createdAt: Date.now(), adminPin: "", password: "", licenseKey: "", isProVersion: false, kittyEnabled: false, members: [], custodian: "", memberBanks: {}, kittyDeposits: [], expenses: [] };
+        state = { createdAt: Date.now(), adminPin: "", password: "", licenseKey: "", isProVersion: false, proUntil: null, members: [], custodian: "", memberBanks: {}, kittyDeposits: [], expenses: [] };
         selectedSplitters = [];
         customSplits = [];
         syncState();
